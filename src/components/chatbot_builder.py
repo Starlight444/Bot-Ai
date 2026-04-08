@@ -32,7 +32,7 @@ class ChatbotBuilder:
             #ChatGroq.model_rebuild()
 
             llm = ChatGroq(temperature=0.6,
-                           model_name="llama-3.3-70b-versatile",
+                           model_name="llama-3.3-70b-versatile",#"llama-3.1-8b-instant", #
                            groq_api_key=self.api_key,
                            max_tokens=4096,)
                            #cache=True)
