@@ -40,6 +40,8 @@ def scrape_products(keyword:str, num_products:int) -> pd.DataFrame:
                 chrome_options.add_argument(f"--user-data-dir={unique_user_data_dir}")
                 chrome_options.binary_location = "/usr/bin/chromium"                   # chromium path in the container
                 chrome_options.add_argument('--headless=new')                          # scrape without a new Chrome window every time.
+                chrome_options.add_argument('--no-sandbox')                            # Bypass OS security model required for Docker
+                chrome_options.add_argument('--disable-dev-shm-usage')                 # Overcome limited resource problems in Docker
 
 
             # configuration for both local and airflow environments 
@@ -107,11 +109,8 @@ def scrape_products(keyword:str, num_products:int) -> pd.DataFrame:
 
                 logging.info(f"Scraping page {current_page}")
 
-                # for "Mens formal shirts"
-                #products = driver.find_elements(By.XPATH, "//div[@class='a-section a-spacing-base a-text-center']")
-                
-                # for "Sarees for women" and for "Watches for men"
-                products = driver.find_elements(By.XPATH, "//div[@class='a-section a-spacing-base']")
+                # More generic XPath for product containers
+                products = driver.find_elements(By.XPATH, "//div[@data-component-type='s-search-result']")
                 logging.info(f"Number of products found on page {current_page}: {len(products)}")
 
                 # iterating through each products 

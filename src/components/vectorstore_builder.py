@@ -119,12 +119,23 @@ class VectorStoreBuilder:
             logging.info(f"Connecting to Pinecone and creating index: {index_name}")
             pc = Pinecone(api_key=self.pinecone_api_key)
 
-            pc.create_index(name=index_name,
-                             dimension = 384,    # 4096,   384 
-                             metric="cosine",
-                             spec=ServerlessSpec(cloud="aws",region="us-east-1"))
-            
-            time.sleep(10)
+            # Check if index exists and verify its dimension
+            if index_name in pc.list_indexes().names():
+                index_info = pc.describe_index(index_name)
+                if index_info.dimension != 384:
+                    logging.warning(f"Index '{index_name}' dimension ({index_info.dimension}) does not match expected (384). Deleting index...")
+                    pc.delete_index(index_name)
+                    time.sleep(10)
+
+            if index_name not in pc.list_indexes().names():
+                pc.create_index(name=index_name,
+                                 dimension = 384,    # 4096,   384 
+                                 metric="cosine",
+                                 spec=ServerlessSpec(cloud="aws",region="us-east-1"))
+                time.sleep(10)
+            else:
+                logging.info(f"Index '{index_name}' already exists. Skipping creation.")
+
             index = pc.Index(index_name)
             time.sleep(10)
 

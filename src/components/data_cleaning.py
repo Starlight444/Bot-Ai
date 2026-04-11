@@ -36,10 +36,17 @@ class DataCleaner:
             dfs = []
             file_paths = glob.glob(os.path.join(file_path, "*.csv"))
             for f in file_paths:
-                file = pd.read_csv(f)
-                dfs.append(file)
+                try:
+                    file = pd.read_csv(f)
+                    if not file.empty:
+                        dfs.append(file)
+                except pd.errors.EmptyDataError:
+                    logging.warning(f"File {f} is empty or has no columns. Skipping.")
 
-            df = pd.concat(dfs)
+            if not dfs:
+                raise ValueError(f"No valid data found in any CSV files at {file_path}")
+
+            df = pd.concat(dfs, ignore_index=True)
             logging.info("Data loaded sucessfully")
             return df
         except Exception as e:
@@ -65,16 +72,19 @@ class DataCleaner:
 
     def find_mode(self, df: DataFrame):
         try:
-            df_without_na = df[~df.applymap(lambda x: str(x).strip().lower() == 'na').any(axis=1)]
-
             cols = df.select_dtypes(include=['object', 'category']).columns
 
             # Compute mode for each categorical column
             modes_dict = {}
             for col in cols:
-                mode_values = df_without_na[col].mode()
+                # Filter out 'na' values for this specific column only
+                valid_data = df[col][df[col].apply(lambda x: str(x).strip().lower() != 'na')]
+                mode_values = valid_data.mode()
+                
                 if not mode_values.empty:
                     modes_dict[col] = mode_values[0]  # Take the first mode if multiple exist
+                else:
+                    modes_dict[col] = "Unknown"       # Fallback if the entire column is 'na'
 
             return cols, modes_dict
         except Exception as e:
@@ -92,7 +102,7 @@ class DataCleaner:
             
             for col in columns:
                 if col in df.columns:  # Fixed the condition here
-                    df[col] = df[col].fillna(replacement_value[col])
+                    df[col] = df[col].fillna(replacement_value.get(col, "Unknown"))
 
             logging.info("Sucessfully replaced 'na' values")
             logging.info("Saving the cleaned data")
