@@ -167,7 +167,7 @@ cd Ecommerce-Chatbot-Project
 
 ### 2️⃣ Create a Virtual Environment
 ```sh
-conda create -p envi python==3.9 -y
+conda create -p envi python==3.12 -y
 source venv/bin/activate   # On macOS/Linux
 conda activate envi     # On Windows
 ```
