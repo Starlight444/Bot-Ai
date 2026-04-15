@@ -1,45 +1,54 @@
 pip==24.0
 setuptools<70
 
-# core dependencies 
-groq==0.16.0
-pydantic==2.10.6
-#pydantic_core==2.27.2
-pydantic-settings==2.7.1
-langchain==0.3.15
-langchain-core==0.3.31
-langchain-community==0.3.15
-# huggingface-hub==0.28.0
-#langchain-nvidia-ai-endpoints==0.3.8
-pinecone-client==3.2.2
-langchain-pinecone==0.2.2
-langchain-groq==0.2.4
-langgraph==0.1.0
-#langchain_huggingface==0.3.1
-langchain-google-genai==2.1.12
+# =====================
+# Core LangChain stack (FIXED)
+# =====================
+langchain>=0.1.0,<1.0.0
+langchain-core>=0.1.48,<1.0.0
+langchain-community>=0.1.0,<1.0.0
 
+langchain-groq>=0.1.0
+langchain-google-genai>=2.0.0
+langchain-pinecone>=0.1.0
+
+langgraph>=0.0.55,<1.0.0
 langsmith>=0.1.0,<0.4.0
 
-#other  dependencies
-selenium==4.28.1  
-#amazoncaptcha==0.5.11
+# =====================
+# AI / DB / API
+# =====================
+groq==0.16.0
+pinecone-client==3.2.2
+
+# =====================
+# Data / backend
+# =====================
+pydantic==2.10.6
+pydantic-settings==2.7.1
+
+Flask==2.2.4
 python-dotenv
 pandas==2.2.3
 numpy==1.26.4
-Flask==2.2.4
 
-requests==2.31.0 
+requests==2.31.0
 urllib3==2.2.2
 typing-extensions==4.12.2
 
-# for production (aws ec2)
-gunicorn     
+# =====================
+# Tools
+# =====================
+selenium==4.28.1
+gunicorn
 
-
-# for airflow, since we are using slim airflow image and it does not include the below module in it 
+# =====================
+# DB
+# =====================
 psycopg2-binary
 asyncpg
-#apache-airflow-providers-celery>=3.3.0
 
-# LINE Bot SDK (LINE OA)
+# =====================
+# LINE Bot
+# =====================
 line-bot-sdk>=3.0.0
