@@ -40,5 +40,3 @@ asyncpg
 
 # LINE Bot SDK (LINE OA)
 line-bot-sdk>=3.0.0
-
-# -e . 
