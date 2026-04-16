@@ -218,7 +218,11 @@ class BuildRetrievalchain:
             retriever = vector_store.as_retriever(search_type="similarity_score_threshold",
                                                   search_kwargs={"k": 5,                    # Number of documents to return
                                                                  "score_threshold": 0.7})   # Minimum relevance threshold
-                                                            
+
+            # ✅ ใส่ debug ตรงนี้
+            docs = retriever.invoke("shirt")
+            print("DEBUG DOCS:", docs)
+
             logging.info("Retriever has be initializing")
             return retriever
         
