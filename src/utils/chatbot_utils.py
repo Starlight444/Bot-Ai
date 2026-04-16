@@ -220,8 +220,8 @@ class BuildRetrievalchain:
                                                                  "score_threshold": 0.7})   # Minimum relevance threshold
 
             # ✅ ใส่ debug ตรงนี้
-            docs = retriever.invoke("shirt")
-            print("DEBUG DOCS:", docs)
+            docs = retriever.get_relevant_documents("watch")
+            print("DEBUG WATCH DOCS:", docs)
 
             logging.info("Retriever has be initializing")
             return retriever
