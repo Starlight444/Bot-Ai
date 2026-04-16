@@ -1,44 +1,55 @@
 pip==24.0
 setuptools<70
 
-# ================= CORE =================
+# =====================
+# Core LangChain stack (FIXED)
+# =====================
+langchain>=0.1.0,<1.0.0
+langchain-core>=0.1.48,<1.0.0
+langchain-community>=0.1.0,<1.0.0
+
+langchain-groq>=0.1.0
+langchain-google-genai>=2.0.0
+langchain-pinecone>=0.1.0
+
+langgraph>=0.0.55,<1.0.0
+langsmith>=0.1.0,<0.4.0
+
+# =====================
+# AI / DB / API
+# =====================
 groq==0.16.0
-pydantic>=2.7,<3
+pinecone-client==3.2.2
+
+# =====================
+# Data / backend
+# =====================
+pydantic==2.10.6
 pydantic-settings==2.7.1
 
-# ================= LANGCHAIN (LOCKED COMPATIBLE SET) =================
-langchain==0.2.16
-#langchain-core==0.3.31
-langchain-community==0.2.16
-langgraph==0.2.14
-
-langchain-groq==0.2.4
-langchain-pinecone==0.2.2
-langchain-google-genai==2.1.12
-langchain-huggingface==0.3.1
-langchain-nvidia-ai-endpoints==0.3.8
-
-# ================= VECTOR DB =================
-#pinecone-client==3.2.2
-pinecone
-langchain-pinecone
-
-# ================= OTHER =================
+Flask==2.2.4
 python-dotenv
 pandas==2.2.3
 numpy==1.26.4
-selenium==4.28.1
-amazoncaptcha==0.5.11
 
-Flask==2.2.4
 requests==2.31.0
 urllib3==2.2.2
 typing-extensions==4.12.2
 
-# ================= PRODUCTION =================
+# =====================
+# Tools
+# =====================
+selenium==4.28.1
 gunicorn
+langchain-huggingface>=0.0.3
 
+# =====================
+# DB
+# =====================
 psycopg2-binary
 asyncpg
 
+# =====================
+# LINE Bot
+# =====================
 line-bot-sdk>=3.0.0
